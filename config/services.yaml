@@ -1,24 +1,30 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    punk.api.base.uri: '%env(PUNK_API_BASE_URI)%'
 
 services:
-    # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            string $punkApiBaseUri: "%punk.api.base.uri%"
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/Beer/Domain/Entity/'
             - '../src/Kernel.php'
+    
+    App\Http\:
+        resource: '../src/Http'
+        tags: ['controller.service_arguments']
+    
+    App\Shared\Infrastructure\PunkApiClient: ~
+    App\Beer\Infrastructure\Repository\HttpServiceInterface: '@App\Shared\Infrastructure\PunkApiClient'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+
+    App\JsonExceptionResponseTransformerListener:
+        tags: 
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 100}
+
+
