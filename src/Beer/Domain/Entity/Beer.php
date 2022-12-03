@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Beer\Domain\Entity;
 
-use App\Beer\Domain\ValueObjects\BeerDescrition;
+use App\Beer\Domain\ValueObjects\BeerDescription;
 use App\Beer\Domain\ValueObjects\BeerFirstBrewed;
 use App\Beer\Domain\ValueObjects\BeerId;
 use App\Beer\Domain\ValueObjects\BeerImage;
@@ -18,25 +18,25 @@ final class Beer
     private BeerFirstBrewed $firstBrewed;
     private BeerImage $image;
     private BeerTagline $tagline;
-    private BeerDescrition $descrition;
+    private BeerDescription $description;
 
     public function __construct(
-        BeerId          $id,
-        BeerName        $name,
-        BeerFirstBrewed $firstBrewed,
-        BeerImage       $image,
-        BeerTagline     $tagline,
-        BeerDescrition  $descrition
+        BeerId           $id,
+        BeerName         $name,
+        BeerFirstBrewed  $firstBrewed,
+        BeerImage        $image,
+        BeerTagline      $tagline,
+        BeerDescription  $description
 
     )
     {
 
-        $this->id           = $id;
-        $this->name         = $name;
-        $this->firstBrewed  = $firstBrewed;
-        $this->image        = $image;
-        $this->tagline      = $tagline;
-        $this->descrition   = $descrition;
+        $this->id            = $id;
+        $this->name          = $name;
+        $this->firstBrewed   = $firstBrewed;
+        $this->image         = $image;
+        $this->tagline       = $tagline;
+        $this->description   = $description;
     }   
 
     public function getId() :BeerId
@@ -61,9 +61,9 @@ final class Beer
         return $this->tagline;
     }
     
-    public function getDescrition() :BeerDescrition
+    public function getDescription() :BeerDescription
     {
-        return $this->descrition;
+        return $this->description;
     }
- 
+
 }

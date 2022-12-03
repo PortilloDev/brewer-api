@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Beer\Infrastructure;
 use App\Beer\Domain\Repository\BeerRepository;
+use App\Beer\Domain\Exception\BeerNotFoundException;
+use App\Shared\Infrastructure\Exception\ClientHttpException;
 
 final class DataBeer implements BeerRepository
 {
@@ -19,7 +21,21 @@ final class DataBeer implements BeerRepository
 
         $endpoint = "v2/beers/{$id}";
 
-        return $this->httpServiceInterface->getData('GET', $endpoint,[]);
+        try {
+
+            $beer = $this->httpServiceInterface->getData('GET', $endpoint,[]);
+
+        } catch (BeerNotFoundException $exception) {
+
+            throw BeerNotFoundException::fromId((string)$id);
+
+        } catch (ClientHttpException $exception) {
+            
+            throw new ClientHttpException($exception->getMessage());
+        
+        }
+
+        return $beer;
   
     }
     public function findBeerForFood(string $field):array
