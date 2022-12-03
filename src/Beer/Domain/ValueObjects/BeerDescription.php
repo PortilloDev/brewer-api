@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Beer\Domain\ValueObjects;
 
-final class BeerDescrition
+final class BeerDescription
 {
     private $value;
 
-    public function __construct(string $descrition)
+    public function __construct(string $description)
     {
-        $this->value = $descrition;
+        $this->value = $description;
     }
 
     public function value(): string

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Beer\Infrastructure\HttpServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Exception;
 class ApiController 
 {
     private HttpServiceInterface $httpServiceInterface;
@@ -30,8 +30,15 @@ class ApiController
     #[Route('/api/v1/beer/{id<\d+>}', name: 'find_beer', methods: ['GET'])]
     public function findBeer(int $id, Request $request) :JsonResponse
     {
-       
-        $response = $this->findBeer->__invoke((int)$id);
+       try {
+           
+            $response = $this->findBeer->__invoke((int)$id);
+
+       } catch (Exception $exception) {
+
+        return new JsonResponse( $exception->getMessage() , Response::HTTP_NOT_FOUND);
+
+       }
       
         return new JsonResponse( $response , Response::HTTP_OK);
     }
@@ -40,7 +47,16 @@ class ApiController
     #[Route('/api/v1/beer/food/{food}', name: 'find_eat_for_beer', methods: ['GET'])]
     public function findEatForBeer(string $food, Request $request) :JsonResponse
     {
-       $response = $this->findBeerForFood->__invoke($food);
+
+        try {
+                
+            $response = $this->findBeerForFood->__invoke($food);
+
+        } catch (Exception $exception) {
+
+            return new JsonResponse( $exception->getMessage() , Response::HTTP_NOT_FOUND);
+
+        }
 
         return new JsonResponse( $response , Response::HTTP_OK);
     }
