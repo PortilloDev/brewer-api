@@ -10,9 +10,9 @@ use App\Beer\Domain\ValueObjects\BeerId;
 use App\Beer\Domain\ValueObjects\BeerImage;
 use App\Beer\Domain\ValueObjects\BeerName;
 use App\Beer\Domain\ValueObjects\BeerTagline;
-
 final class Beer 
 {
+
     private BeerId $id;
     private BeerName $name;
     private BeerFirstBrewed $firstBrewed;

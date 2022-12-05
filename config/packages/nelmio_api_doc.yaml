@@ -1,0 +1,10 @@
+nelmio_api_doc:
+    areas:
+      path_patterns: [ ^/api/v1 ]
+    documentation:
+      info:
+        title: The Brewer
+        description: Recomendador de cervezas!
+        version: 1.0.0
+
+      

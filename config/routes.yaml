@@ -2,4 +2,10 @@ controllers:
     resource:
         path: ../src/Http/
         namespace: App\Http
-    type: attribute
+    type: annotation
+
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+

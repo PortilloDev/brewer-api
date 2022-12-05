@@ -38,21 +38,16 @@ class FindBeer
                 $id = new BeerId($beer['id']);
                 $name = new BeerName($beer['name']);
                 $firstBrewed = new BeerFirstBrewed($beer['first_brewed']);
-                $image = new BeerImage($beer['image_url']);
+                $image = new BeerImage(isset($beer['image_url']) ? $beer['image_url']: 'not image' );
                 $tagline = new BeerTagline($beer['tagline']);
                 $description = new BeerDescription($beer['description']);
             }
 
-        } catch(BeerNotFoundException $exception ) {
+        } catch(Exception $exception ) {
 
             throw BeerNotFoundException::fromId((string)$idBeer);
             
-        } catch (Exception $exception) {
-            
-            throw new Exception($exception->getMessage());
-        
-        }
-
+        } 
 
         $beerDto = new BeerDto($id, $name, $firstBrewed, $image, $tagline, $description);
 

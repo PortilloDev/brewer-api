@@ -18,6 +18,4 @@ services:
     App\Beer\Application\FindBeerForFood:
         public: true
 
-    # Shared\Infrastructure\PunkApiClient: ~
-    # Beer\Application\FindBeer: ~
     
