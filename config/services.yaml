@@ -20,7 +20,7 @@ services:
         tags: ['controller.service_arguments']
     
     App\Shared\Infrastructure\PunkApiClient: ~
-    App\Beer\Infrastructure\Repository\HttpServiceInterface: '@App\Shared\Infrastructure\PunkApiClient'
+    App\Beer\Infrastructure\HttpServiceInterface: '@App\Shared\Infrastructure\PunkApiClient'
 
 
     App\JsonExceptionResponseTransformerListener:
