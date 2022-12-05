@@ -34,7 +34,7 @@ class FindBeerForFood
                 $id = new BeerId($beer['id']);
                 $name = new BeerName($beer['name']);
                 $firstBrewed = new BeerFirstBrewed($beer['first_brewed']);
-                $image = new BeerImage($beer['image_url']);
+                $image = new BeerImage(isset($beer['image_url']) ? $beer['image_url']: 'not image' );
                 $tagline = new BeerTagline($beer['tagline']);
                 $description = new BeerDescription($beer['description']);
 
@@ -44,15 +44,11 @@ class FindBeerForFood
 
             }
 
-        } catch(BeerNotFoundException $exception ) {
+        } catch(Exception $exception ) {
 
             throw BeerNotFoundException::fromFood($food);
             
-        } catch (Exception $exception) {
-            
-            throw new Exception($exception->getMessage());
-        
-        }
+        } 
 
         return $beers;
     }
