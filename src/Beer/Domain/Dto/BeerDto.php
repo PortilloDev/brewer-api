@@ -20,6 +20,8 @@ final class BeerDto
     private $name;
     private $tagline;
     private $description;
+
+    private $beerModel;
     
     public function __construct(
         BeerId           $id,
@@ -36,11 +38,13 @@ final class BeerDto
         $this->image         = $image;
         $this->tagline       = $tagline;
         $this->description   = $description;
+
+        $this->create();
     }
-    public function create(): array
+    private function create(): void
     {
 
-        $beer = new Beer(
+        $this->beerModel = new Beer(
             $this->id,
             $this->name,
             $this->firstBrewed,
@@ -49,15 +53,18 @@ final class BeerDto
             $this->description
         );
 
-        return [ 
-            'id' => $beer->getId()->value(),
-            'name' => $beer->getName()->value(),
-            'description' => $beer->getDescription()->value(),
-            'fistBrewed' => $beer->getFirstBrewed()->value(),
-            'image' => $beer->getImage()->value(),
-            'tagLine' => $beer->getTagline()->value(),
-        ];
+    }
 
+    public function resource() :array
+    {
+        return [ 
+            'id' => $this->beerModel->getId()->value(),
+            'name' => $this->beerModel->getName()->value(),
+            'description' => $this->beerModel->getDescription()->value(),
+            'firstBrewed' => $this->beerModel->getFirstBrewed()->value(),
+            'image' => $this->beerModel->getImage()->value(),
+            'tagLine' => $this->beerModel->getTagline()->value(),
+        ];
     }
 
 }

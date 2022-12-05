@@ -32,7 +32,7 @@ class ApiController
     {
        try {
            
-            $response = $this->findBeer->__invoke((int)$id);
+            $beerDto = $this->findBeer->__invoke((int)$id);
 
        } catch (Exception $exception) {
 
@@ -40,7 +40,7 @@ class ApiController
 
        }
       
-        return new JsonResponse( $response , Response::HTTP_OK);
+        return new JsonResponse( [$beerDto->resource()] , Response::HTTP_OK);
     }
 
 

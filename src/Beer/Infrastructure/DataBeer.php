@@ -38,12 +38,26 @@ final class DataBeer implements BeerRepository
         return $beer;
   
     }
-    public function findBeerForFood(string $field):array
+    public function findBeerForFood(string $food):array
     {
 
-        $endpoint = "v2/beers?food={$field}";
+        try {
 
-        return $this->httpServiceInterface->getData('GET', $endpoint,[]);
+        $endpoint = "v2/beers?food={$food}";
+
+        $beers = $this->httpServiceInterface->getData('GET', $endpoint,[]);
+        
+        } catch (BeerNotFoundException $exception) {
+
+            throw BeerNotFoundException::fromFood($food);
+
+        } catch (ClientHttpException $exception) {
+
+            throw new ClientHttpException($exception->getMessage());
+        }
+
+        return $beers;
+
   
     }
 

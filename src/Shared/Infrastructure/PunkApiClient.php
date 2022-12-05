@@ -8,7 +8,6 @@ namespace App\Shared\Infrastructure;
 use GuzzleHttp\Client;
 use App\Shared\Infrastructure\Exception\ClientHttpException;
 use App\Beer\Infrastructure\HttpServiceInterface;
-use GuzzleHttp\Exception\RequestException;
 use Exception;
 
 class PunkApiClient implements HttpServiceInterface

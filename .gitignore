@@ -9,6 +9,8 @@
 /vendor/
 ###< symfony/framework-bundle ###
 .env
+reports/*
+/reports/
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml

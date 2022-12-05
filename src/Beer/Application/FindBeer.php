@@ -15,7 +15,7 @@ use App\Beer\Domain\ValueObjects\BeerName;
 use App\Beer\Domain\ValueObjects\BeerTagline;
 use Exception;
 
-final class FindBeer
+class FindBeer
 {
 
     private $repository;
@@ -25,7 +25,7 @@ final class FindBeer
         $this->repository = $repository;
     }
 
-    public function __invoke(int $idBeer) :array
+    public function __invoke(int $idBeer) :BeerDto
     {
         
         
@@ -33,12 +33,15 @@ final class FindBeer
 
             $getBeer =  $this->repository->findByBeer($idBeer);
 
-            $id = new BeerId($getBeer[0]['id']);
-            $name = new BeerName($getBeer[0]['name']);
-            $firstBrewed = new BeerFirstBrewed($getBeer[0]['first_brewed']);
-            $image = new BeerImage($getBeer[0]['image_url']);
-            $tagline = new BeerTagline($getBeer[0]['tagline']);
-            $description = new BeerDescription($getBeer[0]['description']);
+            foreach($getBeer as $beer) {
+
+                $id = new BeerId($beer['id']);
+                $name = new BeerName($beer['name']);
+                $firstBrewed = new BeerFirstBrewed($beer['first_brewed']);
+                $image = new BeerImage($beer['image_url']);
+                $tagline = new BeerTagline($beer['tagline']);
+                $description = new BeerDescription($beer['description']);
+            }
 
         } catch(BeerNotFoundException $exception ) {
 
@@ -54,6 +57,6 @@ final class FindBeer
         $beerDto = new BeerDto($id, $name, $firstBrewed, $image, $tagline, $description);
 
 
-        return [$beerDto->create()];
+        return $beerDto;
     }
 }

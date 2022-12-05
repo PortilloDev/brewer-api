@@ -14,7 +14,7 @@ use App\Beer\Domain\ValueObjects\BeerDescription;
 use App\Beer\Domain\ValueObjects\BeerFirstBrewed;
 use App\Beer\Domain\Exception\BeerNotFoundException;
 
-final class FindBeerForFood
+class FindBeerForFood
 {
     private $repository;
 
@@ -40,13 +40,13 @@ final class FindBeerForFood
 
                 $beerDto = new BeerDto($id, $name, $firstBrewed, $image, $tagline, $description);
                 
-                array_push($beers, $beerDto->create());
+                array_push($beers, $beerDto->resource());
 
             }
 
         } catch(BeerNotFoundException $exception ) {
 
-            throw BeerNotFoundException::fromId($food);
+            throw BeerNotFoundException::fromFood($food);
             
         } catch (Exception $exception) {
             

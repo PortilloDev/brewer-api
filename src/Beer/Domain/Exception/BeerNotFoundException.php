@@ -6,14 +6,19 @@ namespace App\Beer\Domain\Exception;
 
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Exception;
 
-class BeerNotFoundException extends NotFoundHttpException
+class BeerNotFoundException extends Exception
 {
 
-    private const MESSAGE = 'Beer with id %s not found';
 
     public static function fromId(string $id) : self
     {
-        throw new self(\sprintf(self::MESSAGE, $id));
+        throw new self(\sprintf('Beer with id %s not found', $id));
+    }
+
+    public static function fromFood(string $food) : self
+    {
+        throw new self(\sprintf('Beer with food %s not found', $food));
     }
 }

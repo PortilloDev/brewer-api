@@ -1,3 +1,6 @@
+framework:
+    test: true
+    
 services:
     _defaults:
         autowire: true
@@ -5,3 +8,16 @@ services:
 
     App\Tests\Apps\:
         resource: '../tests/Apps/*'
+        
+    App\Beer\Infrastructure\HttpServiceInterface:
+        public: true
+    
+    App\Beer\Application\FindBeer:
+        public: true
+    
+    App\Beer\Application\FindBeerForFood:
+        public: true
+
+    # Shared\Infrastructure\PunkApiClient: ~
+    # Beer\Application\FindBeer: ~
+    
