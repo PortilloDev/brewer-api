@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Beer;
 
+use Exception;
+use OpenApi\Annotations as OA;
+use App\Beer\Domain\Entity\Beer;
 use App\Beer\Application\FindBeer;
 use App\Beer\Application\FindBeerForFood;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Beer\Infrastructure\HttpServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Beer\Domain\Entity\Beer;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use OpenApi\Annotations as OA;
-use Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 class ApiController 
@@ -164,7 +165,7 @@ class ApiController
     {
 
         try {
-            
+
             $food = str_replace(' ', '_', $food);
             
             $response = $this->findBeerForFood->__invoke($food);
@@ -176,5 +177,11 @@ class ApiController
         }
 
         return new JsonResponse( $response , Response::HTTP_OK);
+    }
+
+    #[Route('/', name: 'route', methods: ['GET'])]
+    public function myRedirectAction()
+    {
+        return new RedirectResponse('/api/doc');
     }
 }
