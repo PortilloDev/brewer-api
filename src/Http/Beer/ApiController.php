@@ -6,17 +6,15 @@ namespace App\Http\Beer;
 
 use Exception;
 use OpenApi\Annotations as OA;
-use App\Beer\Domain\Entity\Beer;
+use Psr\Cache\CacheItemInterface;
 use App\Beer\Application\FindBeer;
 use App\Beer\Application\FindBeerForFood;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Beer\Infrastructure\HttpServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
 
 class ApiController 
 {
@@ -87,11 +85,21 @@ class ApiController
      * )
      */
     #[Route('/api/v1/beer/{id<\d+>}', name: 'find_beer', methods: ['GET'])]
-    public function findBeer(int $id, Request $request) :JsonResponse
+    public function findBeer(int $id, Request $request, CacheInterface $cache) :JsonResponse
     {
+        $findBeer = $this->findBeer;
        try {
-           
-            $beerDto = $this->findBeer->__invoke((int)$id);
+       
+        $response = $cache->get('findBeer', function (CacheItemInterface $cacheItemInterface) use ($findBeer, $id){
+      
+            $cacheItemInterface->expiresAfter(5);
+            
+            $beerDto = $findBeer->__invoke((int)$id);
+            
+            return [$beerDto->resource()];
+      
+          });
+     
 
        } catch (Exception $exception) {
 
@@ -99,7 +107,7 @@ class ApiController
 
        }
       
-        return new JsonResponse( [$beerDto->resource()] , Response::HTTP_OK);
+        return new JsonResponse( $response  , Response::HTTP_OK);
     }
 
 
@@ -161,13 +169,24 @@ class ApiController
      * )
      */
     #[Route('/api/v1/beer/food/{food}', name: 'find_eat_for_beer', methods: ['GET'])]
-    public function findEatForBeer(string $food, Request $request) :JsonResponse
+    public function findEatForBeer(string $food, Request $request, CacheInterface $cache) :JsonResponse
     {
 
+        $findBeerForFood = $this->findBeerForFood;
         try {
 
             $food = str_replace(' ', '_', $food);
             
+            $response = $cache->get('findEatForBeer', function (CacheItemInterface $cacheItemInterface) use ($findBeerForFood, $food){
+      
+                $cacheItemInterface->expiresAfter(5);
+
+                $beersDto = $findBeerForFood->__invoke($food);
+                
+                return $beersDto;
+          
+              });
+                     
             $response = $this->findBeerForFood->__invoke($food);
 
         } catch (Exception $exception) {
