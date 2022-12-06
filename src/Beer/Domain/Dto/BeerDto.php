@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace App\Beer\Domain\Dto;
 
@@ -22,25 +22,25 @@ final class BeerDto
     private $description;
 
     private $beerModel;
-    
+
     public function __construct(
-        BeerId           $id,
-        BeerName         $name,
-        BeerFirstBrewed  $firstBrewed,
-        BeerImage        $image,
-        BeerTagline      $tagline,
-        BeerDescription  $description
-    )
-    {
-        $this->id            = $id;
-        $this->name          = $name;
-        $this->firstBrewed   = $firstBrewed;
-        $this->image         = $image;
-        $this->tagline       = $tagline;
-        $this->description   = $description;
+        BeerId $id,
+        BeerName $name,
+        BeerFirstBrewed $firstBrewed,
+        BeerImage $image,
+        BeerTagline $tagline,
+        BeerDescription $description
+    ) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->firstBrewed = $firstBrewed;
+        $this->image = $image;
+        $this->tagline = $tagline;
+        $this->description = $description;
 
         $this->create();
     }
+
     private function create(): void
     {
 
@@ -55,9 +55,9 @@ final class BeerDto
 
     }
 
-    public function resource() :array
+    public function resource(): array
     {
-        return [ 
+        return [
             'id' => $this->beerModel->getId()->value(),
             'name' => $this->beerModel->getName()->value(),
             'description' => $this->beerModel->getDescription()->value(),

@@ -1,9 +1,3 @@
-controllers:
-    resource:
-        path: ../src/Http/
-        namespace: App\Http
-    type: annotation
-
 app.swagger_ui:
     path: /api/doc
     methods: GET

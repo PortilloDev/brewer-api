@@ -28,8 +28,8 @@ class JsonExceptionResponseTransformerListener
     private function prepareResponse(array $data, int $statusCode): JsonResponse
     {
         $response = new JsonResponse($data, $statusCode);
-        $response->headers->set('Server-Time',  (string) time());
-        $response->headers->set('X-Error-Code', (string) $statusCode);
+        $response->headers->set('Server-Time', (string)time());
+        $response->headers->set('X-Error-Code', (string)$statusCode);
 
         return $response;
     }

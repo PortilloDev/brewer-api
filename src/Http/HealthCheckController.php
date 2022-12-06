@@ -1,22 +1,22 @@
-<?php 
+<?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 
 namespace App\Http;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 class HealthCheckController
 {
 
-  	 /**
-     * 
+    /**
+     *
      * Health status App.
-     * 
+     *
+     * @Route("/api/v1/check", name="check", methods={"GET"})
+     *
      * @OA\Response(
      *     response=200,
      *     description="verify that the application is up",
@@ -26,13 +26,11 @@ class HealthCheckController
      *     )
      * )
      */
-    #[Route('/api/v1/check', name: 'check', methods: ['GET'])]
-  public function check() :JsonResponse
-  {
-      return new JsonResponse(
-        [
-          'message' => 'Brewer up and running',
-        ]
-      );
-  }
+    function check(): JsonResponse
+    {
+
+        return new JsonResponse( [
+            'message' => 'Brewer up and running',
+        ]);
+    }
 }
