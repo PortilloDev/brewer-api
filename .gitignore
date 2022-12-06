@@ -9,6 +9,7 @@
 /vendor/
 ###< symfony/framework-bundle ###
 .env
+.idea/
 reports/*
 /reports/
 ###> symfony/phpunit-bridge ###

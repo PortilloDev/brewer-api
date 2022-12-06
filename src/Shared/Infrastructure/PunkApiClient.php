@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Shared\Infrastructure;
 
@@ -14,21 +14,22 @@ class PunkApiClient implements HttpServiceInterface
 {
     private Client $client;
     private string $baseUri;
+
     public function __construct(string $punkApiBaseUri)
     {
         $this->client = new Client(['base_uri' => $punkApiBaseUri]);
 
     }
 
-    public function getData(string $method, string $endpoint, ?array $options) :array
+    public function getData(string $method, string $endpoint, ?array $options): array
     {
 
         try {
-            
+
             $response = $this->client->request($method, $endpoint);
 
         } catch (ClientHttpException $exception) {
-            
+
             throw new ClientHttpException($exception->getMessage());
 
         } catch (Exception  $exception) {
@@ -37,7 +38,7 @@ class PunkApiClient implements HttpServiceInterface
         }
 
 
-        return json_decode( $response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true);
 
 
     }

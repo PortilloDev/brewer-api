@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class ApiController 
+class ApiController
 {
     private $findBeer;
     private $findBeerForFood;
@@ -24,13 +24,15 @@ class ApiController
 
     public function __construct(FindBeer $findBeer, FindBeerForFood $findBeerForFood)
     {
-        $this->findBeer         = $findBeer;
-        $this->findBeerForFood  = $findBeerForFood;
+        $this->findBeer = $findBeer;
+        $this->findBeerForFood = $findBeerForFood;
     }
 
     /**
      * Returns detail of a beer
-     * 
+     *
+     * @Route("/api/v1/beer/{id<\d+>}", name="find_beer", methods={"GET"})
+     *
      * @OA\GET(
      *  description="Returns detail of a beer",
      * ),
@@ -73,49 +75,51 @@ class ApiController
      *          ),
      *        )
      *       )
-     *      }   
+     *      }
      * ),
-     *  @OA\Response(
+     * @OA\Response(
      *     response=404,
      *     description="Not found"
      * ),
-     *  @OA\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Bad Request"
      * )
      */
-    #[Route('/api/v1/beer/{id<\d+>}', name: 'find_beer', methods: ['GET'])]
-    public function findBeer(int $id, Request $request, CacheInterface $cache) :JsonResponse
+
+    public function findBeer(int $id, Request $request, CacheInterface $cache): JsonResponse
     {
         $findBeer = $this->findBeer;
-       try {
-       
-        $response = $cache->get('findBeer', function (CacheItemInterface $cacheItemInterface) use ($findBeer, $id){
-      
-            $cacheItemInterface->expiresAfter(5);
-            
-            $beerDto = $findBeer->__invoke((int)$id);
-            
-            return [$beerDto->resource()];
-      
-          });
-     
 
-       } catch (Exception $exception) {
+        try {
 
-        return new JsonResponse( $exception->getMessage() , Response::HTTP_NOT_FOUND);
+            $response = $cache->get('findBeer', function (CacheItemInterface $cacheItemInterface) use ($findBeer, $id) {
 
-       }
-      
-        return new JsonResponse( $response  , Response::HTTP_OK);
+                $cacheItemInterface->expiresAfter(500);
+
+                $beerDto = $findBeer->__invoke((int)$id);
+
+                return [$beerDto->resource()];
+
+            });
+
+
+        } catch (Exception $exception) {
+
+            return new JsonResponse($exception->getMessage(), Response::HTTP_NOT_FOUND);
+
+        }
+
+        return new JsonResponse($response, Response::HTTP_OK);
     }
-
 
 
     /**
      *   Returns collection with the details of the recommended beers for a given type of food
-     * 
-     *  @OA\GET(
+     *
+     * @Route("/api/v1/beer/food/{food}", name="find_eat_for_beer", methods={"GET"})
+     *
+     * @OA\GET(
      *   description="Returns collection with the details of the recommended beers for a given type of food, if you need to add spaces when indicating a food, simply add an underscore",
      *  ),
      * * @OA\Response(
@@ -157,45 +161,46 @@ class ApiController
      *          ),
      *        )
      *       )
-     *      }   
+     *      }
      * ),
-     *  @OA\Response(
+     * @OA\Response(
      *     response=404,
      *     description="Not found"
      * ),
-     *  @OA\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Bad Request"
      * )
      */
-    #[Route('/api/v1/beer/food/{food}', name: 'find_eat_for_beer', methods: ['GET'])]
-    public function findEatForBeer(string $food, Request $request, CacheInterface $cache) :JsonResponse
+
+    public function findEatForBeer(string $food, Request $request, CacheInterface $cache): JsonResponse
     {
 
         $findBeerForFood = $this->findBeerForFood;
         try {
 
             $food = str_replace(' ', '_', $food);
-            
-            $response = $cache->get('findEatForBeer', function (CacheItemInterface $cacheItemInterface) use ($findBeerForFood, $food){
-      
-                $cacheItemInterface->expiresAfter(5);
 
-                $beersDto = $findBeerForFood->__invoke($food);
-                
-                return $beersDto;
-          
-              });
-                     
+            $response = $cache->get('findEatForBeer',
+                function (CacheItemInterface $cacheItemInterface) use ($findBeerForFood, $food) {
+
+                    $cacheItemInterface->expiresAfter(500);
+
+                    $beersDto = $findBeerForFood->__invoke($food);
+
+                    return $beersDto;
+
+                });
+
             $response = $this->findBeerForFood->__invoke($food);
 
         } catch (Exception $exception) {
 
-            return new JsonResponse( $exception->getMessage() , Response::HTTP_NOT_FOUND);
+            return new JsonResponse($exception->getMessage(), Response::HTTP_NOT_FOUND);
 
         }
 
-        return new JsonResponse( $response , Response::HTTP_OK);
+        return new JsonResponse($response, Response::HTTP_OK);
     }
 
     #[Route('/', name: 'route', methods: ['GET'])]

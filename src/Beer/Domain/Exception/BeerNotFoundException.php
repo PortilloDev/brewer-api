@@ -12,12 +12,12 @@ class BeerNotFoundException extends Exception
 {
 
 
-    public static function fromId(string $id) : self
+    public static function fromId(string $id): self
     {
         throw new self(\sprintf('Beer with id %s not found', $id));
     }
 
-    public static function fromFood(string $food) : self
+    public static function fromFood(string $food): self
     {
         throw new self(\sprintf('Beer with food %s not found', $food));
     }

@@ -10,7 +10,8 @@ use App\Beer\Domain\ValueObjects\BeerId;
 use App\Beer\Domain\ValueObjects\BeerImage;
 use App\Beer\Domain\ValueObjects\BeerName;
 use App\Beer\Domain\ValueObjects\BeerTagline;
-final class Beer 
+
+final class Beer
 {
 
     private BeerId $id;
@@ -21,47 +22,49 @@ final class Beer
     private BeerDescription $description;
 
     public function __construct(
-        BeerId           $id,
-        BeerName         $name,
-        BeerFirstBrewed  $firstBrewed,
-        BeerImage        $image,
-        BeerTagline      $tagline,
-        BeerDescription  $description
+        BeerId $id,
+        BeerName $name,
+        BeerFirstBrewed $firstBrewed,
+        BeerImage $image,
+        BeerTagline $tagline,
+        BeerDescription $description
 
-    )
-    {
+    ) {
 
-        $this->id            = $id;
-        $this->name          = $name;
-        $this->firstBrewed   = $firstBrewed;
-        $this->image         = $image;
-        $this->tagline       = $tagline;
-        $this->description   = $description;
-    }   
+        $this->id = $id;
+        $this->name = $name;
+        $this->firstBrewed = $firstBrewed;
+        $this->image = $image;
+        $this->tagline = $tagline;
+        $this->description = $description;
+    }
 
-    public function getId() :BeerId
+    public function getId(): BeerId
     {
         return $this->id;
     }
-    public function getName() :BeerName
+
+    public function getName(): BeerName
     {
         return $this->name;
     }
-    public function getFirstBrewed() :BeerFirstBrewed
+
+    public function getFirstBrewed(): BeerFirstBrewed
     {
         return $this->firstBrewed;
     }
-    public function getImage() :BeerImage
+
+    public function getImage(): BeerImage
     {
         return $this->image;
     }
 
-    public function getTagline() :BeerTagline
+    public function getTagline(): BeerTagline
     {
         return $this->tagline;
     }
-    
-    public function getDescription() :BeerDescription
+
+    public function getDescription(): BeerDescription
     {
         return $this->description;
     }
