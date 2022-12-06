@@ -95,7 +95,7 @@ class ApiController
 
             $response = $cache->get('findBeer', function (CacheItemInterface $cacheItemInterface) use ($findBeer, $id) {
 
-                $cacheItemInterface->expiresAfter(500);
+                $cacheItemInterface->expiresAfter(5);
 
                 $beerDto = $findBeer->__invoke((int)$id);
 
@@ -184,7 +184,7 @@ class ApiController
             $response = $cache->get('findEatForBeer',
                 function (CacheItemInterface $cacheItemInterface) use ($findBeerForFood, $food) {
 
-                    $cacheItemInterface->expiresAfter(500);
+                    $cacheItemInterface->expiresAfter(5);
 
                     $beersDto = $findBeerForFood->__invoke($food);
 
