@@ -1,7 +1,7 @@
 # Recomendador de Cervezas 🍺 
 
 <p align="center">
-  <img src="https://github.com/PortilloDev/brewer-api/tree/master/public/img/brewer.webp?raw=true" alt="brewer image"/>
+  <img src="https://raw.githubusercontent.com/PortilloDev/brewer-api/master/public/img/brewer.webp" alt="brewer image"/>
 </p>
 
 ## Descripción
