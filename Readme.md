@@ -23,17 +23,19 @@ Tener instalado docker en tú equipo.
     ``` 
     cp .env.example .env
     ```
+* Dentro de la raíz del proyecto, ejecutar
+    ``` 
+    docker compose up -d
+    ```
 * Entrar dentro del contenedor y ejecutar 
     ``` 
     composer install
     ```
-## Ejecutar la aplicación
-
- Ejecutar el comando `docker compose up -d` desde la raíz del proyecto.
+## Estado de la aplicación
 
  El servicio se levantará en el host http://localhost:8030
 
- En la url: http://127.0.0.1:8030/api/doc se encuentra los servicios/url disponibles
+ En la url: http://127.0.0.1:8030/api/doc se encuentra la información de los servicios/url disponibles
 
  ## Test
 
