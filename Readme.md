@@ -16,12 +16,13 @@ Tener instalado docker en tú equipo.
  ## Instalación
 
 * Clonar repositorio  (https://github.com/PortilloDev/brewer-api)
-    ```
-    git clone https://github.com/PortilloDev/brewer-api.git
+   ``` git clone https://github.com/PortilloDev/brewer-api.git
     ```
 * Copiar el fichero de variables de entorno .env.example y renombrar como .env
+    ``` cp .env.example .env
     ```
-     cp .env.example .env
+* Entrar dentro del contenedor y ejecutar 
+    ``` composer install
     ```
 ## Ejecutar la aplicación
 
