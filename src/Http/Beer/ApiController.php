@@ -33,7 +33,7 @@ class ApiController
      *
      * @Route("/api/v1/beer/{id<\d+>}", name="find_beer", methods={"GET"})
      *
-     * @OA\GET(
+     * @OA\Get(
      *  description="Returns detail of a beer",
      * ),
      * * @OA\Response(
@@ -119,7 +119,7 @@ class ApiController
      *
      * @Route("/api/v1/beer/food/{food}", name="find_eat_for_beer", methods={"GET"})
      *
-     * @OA\GET(
+     * @OA\Get(
      *   description="Returns collection with the details of the recommended beers for a given type of food, if you need to add spaces when indicating a food, simply add an underscore",
      *  ),
      * * @OA\Response(
@@ -203,7 +203,10 @@ class ApiController
         return new JsonResponse($response, Response::HTTP_OK);
     }
 
-    #[Route('/', name: 'route', methods: ['GET'])]
+    /**
+     *  @Route("/", name="route", methods={"GET"})
+     *
+     */
     public function myRedirectAction()
     {
         return new RedirectResponse('/api/doc');

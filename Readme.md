@@ -1,7 +1,7 @@
 # Recomendador de Cervezas 🍺 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/PortilloDev/brewer-api/master/public/img/brewer.webp" alt="brewer image"/>
+  <img src="https://raw.githubusercontent.com/PortilloDev/brewer-api/master/public/img/brewer.webp" alt="brewer image" width="50%" height="50%"/>
 </p>
 
 ## Descripción
@@ -20,7 +20,9 @@ Tener instalado docker en tú equipo.
     git clone https://github.com/PortilloDev/brewer-api.git
     ```
 * Copiar el fichero de variables de entorno .env.example y renombrar como .env
-
+    ```
+     cp .env.example .env
+    ```
 ## Ejecutar la aplicación
 
  Ejecutar el comando `docker compose up -d` desde la raíz del proyecto.
