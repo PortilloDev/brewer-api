@@ -93,7 +93,7 @@ class ApiController
 
         try {
 
-            $response = $cache->get('findBeer', function (CacheItemInterface $cacheItemInterface) use ($findBeer, $id) {
+            $response = $cache->get("findBeer-{$id}", function (CacheItemInterface $cacheItemInterface) use ($findBeer, $id) {
 
                 $cacheItemInterface->expiresAfter(5);
 
@@ -181,7 +181,7 @@ class ApiController
 
             $food = str_replace(' ', '_', $food);
 
-            $response = $cache->get('findEatForBeer',
+            $response = $cache->get("findEatForBeer-{$food}",
                 function (CacheItemInterface $cacheItemInterface) use ($findBeerForFood, $food) {
 
                     $cacheItemInterface->expiresAfter(5);
