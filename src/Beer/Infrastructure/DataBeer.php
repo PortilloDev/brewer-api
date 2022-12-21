@@ -64,4 +64,51 @@ final class DataBeer implements BeerRepository
     }
 
 
+	/**
+	 * @return array
+	 */
+	public function getBeers(): array
+    {
+        try {
+
+            $endpoint = "v2/beers";
+
+            $beers = $this->httpServiceInterface->getData('GET', $endpoint, []);
+
+        } catch (BeerNotFoundException $exception) {
+
+            throw BeerNotFoundException::fromBeers();
+
+        } catch (ClientHttpException $exception) {
+
+            throw new ClientHttpException($exception->getMessage());
+        }
+
+        return $beers;
+	}
+	
+	/**
+	 *
+	 * @param string $name
+	 * @return array
+	 */
+	public function findBeerForName(string $name): array 
+    {
+        try {
+            
+            $endpoint = "v2/beers?beer_name={$name}";
+
+            $beers = $this->httpServiceInterface->getData('GET', $endpoint, []);
+
+        } catch (BeerNotFoundException $exception) {
+
+            throw BeerNotFoundException::fromName($name);
+
+        } catch (ClientHttpException $exception) {
+
+            throw new ClientHttpException($exception->getMessage());
+        }
+
+        return $beers;
+	}
 }

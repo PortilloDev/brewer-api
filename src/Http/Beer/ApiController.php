@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Beer;
 
+use App\Beer\Application\FindBeerForName;
 use Exception;
 use OpenApi\Annotations as OA;
 use Psr\Cache\CacheItemInterface;
 use App\Beer\Application\FindBeer;
+use App\Beer\Application\GetBeers;
 use App\Beer\Application\FindBeerForFood;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +22,16 @@ class ApiController
 {
     private $findBeer;
     private $findBeerForFood;
+    private $findBeerForName;
+    private $beers;
 
 
-    public function __construct(FindBeer $findBeer, FindBeerForFood $findBeerForFood)
+    public function __construct(FindBeer $findBeer, FindBeerForFood $findBeerForFood, GetBeers $beers, FindBeerForName $findBeerForName)
     {
-        $this->findBeer = $findBeer;
-        $this->findBeerForFood = $findBeerForFood;
+        $this->findBeer         = $findBeer;
+        $this->findBeerForFood  = $findBeerForFood;
+        $this->beers            = $beers;
+        $this->findBeerForName  = $findBeerForName;
     }
 
     /**
@@ -211,4 +217,79 @@ class ApiController
     {
         return new RedirectResponse('/api/doc');
     }
+    // ?beer_name=mahou
+
+    /**
+     *   Returns collection with a all beers
+     *
+     * @Route("/api/v1/beers", name="getBeer", methods={"GET"})
+     *
+     * @OA\Get(
+     *   description="Returns collection with a all beers",
+     *  ),
+     *
+     */
+    public function getBeer(Request $request, CacheInterface $cache) :JsonResponse
+    {
+        $beers = $this->beers;
+
+        try {
+
+            $response = $cache->get("beers", function (CacheItemInterface $cacheItemInterface) use ($beers) {
+
+                $cacheItemInterface->expiresAfter(500);
+
+                $beersDto = $beers->__invoke();
+
+                return $beersDto;
+
+            });
+
+
+        } catch (Exception $exception) {
+
+            return new JsonResponse($exception->getMessage(), Response::HTTP_NOT_FOUND);
+
+        }
+
+        return new JsonResponse($response, Response::HTTP_OK);
+    }
+
+    /**
+     *   Returns collection with the details of the all beers matching the supplied name
+     *
+     * @Route("/api/v1/beer/beer-name/{name}", name="find_beer_for_name", methods={"GET"})
+     *
+     * @OA\Get(
+     *   description="Returns collection with the details of the all beers matching the supplied name, if you need to add spaces when indicating a food, simply add an underscore",
+     *  ),
+     *
+     */
+    public function findBeerForName(string $name, Request $request, CacheInterface $cache) :JsonResponse
+    {
+        $findBeerForName = $this->findBeerForName;
+
+        try {
+            $name = str_replace(' ', '_', $name);
+            $response = $cache->get("beers-{$name}", function (CacheItemInterface $cacheItemInterface) use ($findBeerForName, $name) {
+
+                $cacheItemInterface->expiresAfter(500);
+
+                $beersDto = $findBeerForName->__invoke($name);
+
+                return $beersDto;
+
+            });
+
+
+        } catch (Exception $exception) {
+
+            return new JsonResponse($exception->getMessage(), Response::HTTP_NOT_FOUND);
+
+        }
+
+        return new JsonResponse($response, Response::HTTP_OK);
+    }
+
+
 }

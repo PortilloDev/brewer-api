@@ -21,4 +21,14 @@ class BeerNotFoundException extends Exception
     {
         throw new self(\sprintf('Beer with food %s not found', $food));
     }
+
+    public static function fromBeers(): self
+    {
+        throw new self(\sprintf('Beers not found'));
+    }
+
+    public static function fromName(string $name): self
+    {
+        throw new self(\sprintf('Beer with name %s not found', $name));
+    }
 }
